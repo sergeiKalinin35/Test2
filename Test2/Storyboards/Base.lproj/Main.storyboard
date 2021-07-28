@@ -258,6 +258,12 @@
                         <outletCollection property="singleButtons" destination="DQH-id-ZlJ" collectionClass="NSMutableArray" id="Fru-up-LxL"/>
                         <outletCollection property="singleButtons" destination="AQB-HS-tap" collectionClass="NSMutableArray" id="XLZ-7V-RbC"/>
                         <outletCollection property="singleButtons" destination="bzB-Ey-Wv5" collectionClass="NSMutableArray" id="vby-E7-clh"/>
+                        <outletCollection property="multipleLabes" destination="sHs-uZ-hze" collectionClass="NSMutableArray" id="t3A-Mf-pDt"/>
+                        <outletCollection property="multipleLabes" destination="4kl-Vk-0UF" collectionClass="NSMutableArray" id="Vgi-at-Cae"/>
+                        <outletCollection property="multipleLabes" destination="bXp-fX-So6" collectionClass="NSMutableArray" id="jQz-ID-Yzw"/>
+                        <outletCollection property="multipleLabes" destination="Ot0-v4-Gc0" collectionClass="NSMutableArray" id="x1o-PN-yLt"/>
+                        <outletCollection property="rangedLabes" destination="glg-y3-3zb" collectionClass="NSMutableArray" id="0Nb-qP-Pma"/>
+                        <outletCollection property="rangedLabes" destination="Yfx-5Y-l9k" collectionClass="NSMutableArray" id="bcH-k7-1C0"/>
                         <segue destination="n8a-co-Me8" kind="show" identifier="segue" id="heT-2E-18W"/>
                     </connections>
                 </viewController>
