@@ -28,7 +28,10 @@ class QuestionsViewController: UIViewController {
     // приватные свойства ответов и вопросов
     private let questions = Question.getQuestions()
     private var  questionIndex = 0
-    
+    private var currentAnswers: [Answer] {
+        questions[questionIndex].answers
+        
+    }
     
     
     
@@ -39,6 +42,8 @@ class QuestionsViewController: UIViewController {
         
         
         updateUI()
+        
+        
     }
     
     
@@ -64,16 +69,36 @@ extension QuestionsViewController {
         //отобразить номер 1 из 3
         title = "ВОПРОС № \(questionIndex + 1) из \(questions.count)"
         
-        
+        showCurrentStackView(for: currentQuestion.type)
         
         // последовательно отображаем скрытые стэки
-        
-        
+        }
+    
+    private func showCurrentStackView(for type: ResponseType) {
+        switch type {
+                
+        case .single:
+          showSingleStackView(with: currentAnswers) // break
+        case .multiple:
+            break
+        case .ranged:
+            break
+        }
         
     }
+        //три доп метода под каждый стэк вью
+    private func showSingleStackView(with answers: [Answer]) {
+        // отобразить текущий стэк вью
+        singleStackView.isHidden = false
+        // кортеджи через zip
+        for (button, answer) in zip(singleButtons, answers) {
+            button.setTitle(answer.text, for: .normal)
+            
+        }
+        
+    }
+    
 }
-
-
 
 
 
