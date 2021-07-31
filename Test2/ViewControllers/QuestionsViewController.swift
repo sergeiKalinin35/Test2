@@ -12,7 +12,12 @@ class QuestionsViewController: UIViewController {
     
     @IBOutlet var questionLabel: UILabel!
     @IBOutlet var progressView: UIProgressView!
-    @IBOutlet var rangedSlider: UISlider!
+    @IBOutlet var rangedSlider: UISlider! {
+        didSet {
+            let answerCount = Float (currentAnswers.count - 1)
+            rangedSlider.value = answerCount
+        }
+    }
     
     
     // создаем стэки для переменного включения их.
@@ -25,28 +30,63 @@ class QuestionsViewController: UIViewController {
     @IBOutlet var multipleLabes: [UILabel]!
     @IBOutlet var rangedLabes: [UILabel]!
     
+    
+    @IBOutlet var multipleSwitch: [UISwitch]!
+    
+    
+    
     // приватные свойства ответов и вопросов
     private let questions = Question.getQuestions()
     private var  questionIndex = 0
+    private var answersChoosen: [Answer] = []
     private var currentAnswers: [Answer] {
         questions[questionIndex].answers
         
     }
     
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         updateUI()
         
+    }
+
+    
+    @IBAction func singleButtonAnswerPressed(_ sender: UIButton) {
+        //определяем индекс кнопки
+        guard let currentIndex = singleButtons.firstIndex(of: sender) else { return }
+        
+        let currentAnswer = currentAnswers[currentIndex]
+        answersChoosen.append(currentAnswer)
+        // дальше отобразить другой стэк вью
+        nextQuestion()
         
     }
     
     
+    @IBAction func multipleAnswerPressed() {
+        for (multipleSwitch, answer) in zip(multipleSwitch, currentAnswers) {
+            
+            if multipleSwitch.isOn {
+                answersChoosen.append(answer)
+                
+                
+            }
+        }
+        nextQuestion()
+    }
+    
+    
+    @IBAction func rangedAnswerButtonPressed() {
+        let index = lrintf(rangedSlider.value)
+        answersChoosen.append(currentAnswers[index])
+        nextQuestion()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       let resultVC = segue.destination as! ResultsViewController
+       resultVC.answers = answersChoosen
+   }
 }
 
 // privat Methods
@@ -80,9 +120,9 @@ extension QuestionsViewController {
         case .single:
           showSingleStackView(with: currentAnswers) // break
         case .multiple:
-            break
+          showMultipleStackView(with: currentAnswers) // break
         case .ranged:
-            break
+          showRangedStackView(with: currentAnswers)//  break
         }
         
     }
@@ -98,8 +138,43 @@ extension QuestionsViewController {
         
     }
     
+    private func showMultipleStackView(with answers: [Answer]) {
+        multipleStackView.isHidden = false
+        
+        for (label, answer) in zip(multipleLabes, answers) {
+            label.text = answer.text
+        }
+    }
+    
+    private func showRangedStackView(with answers: [Answer]) {
+        rangedStackView.isHidden = false
+        
+        rangedLabes.first?.text = answers.first?.text
+        rangedLabes.last?.text = answers.last?.text
+        
+        }
+    private func nextQuestion() {
+        questionIndex += 1
+        
+        if questionIndex < questions.count {
+            updateUI()
+           return
+       }
+        
+         performSegue(withIdentifier: "segue" , sender: nil)
+    }
+    
+    
 }
 
+
+
+
+
+
+
+
+//переход на следующий экран в тесте single с фиксацией ответа
 
 
 
